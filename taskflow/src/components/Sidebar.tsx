@@ -6,6 +6,7 @@ import {
   UsersIcon,
   FolderIcon,
   BarChartIcon,
+  LinkIcon,
 } from "./Icons";
 
 interface SidebarProps {
@@ -95,6 +96,22 @@ export default function Sidebar({
           >
             <BarChartIcon />
             Reports
+          </button>
+
+          <button
+            onClick={() => handleNav("integrations")}
+            className={`
+              flex items-center gap-2.5 w-full px-3.5 py-2.5 rounded-lg text-sm font-medium
+              transition-all duration-150
+              ${
+                currentSection === "integrations"
+                  ? "bg-indigo-50 text-indigo-600"
+                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+              }
+            `}
+          >
+            <LinkIcon />
+            Integrations
           </button>
         </nav>
       </aside>

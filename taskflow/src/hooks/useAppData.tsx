@@ -8,7 +8,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import { AppData, Client, Project, Task } from "@/lib/types";
+import { AppData, Client, Project, Task, IntegrationConfig } from "@/lib/types";
 import { loadData, saveData } from "@/lib/store";
 import { genId } from "@/lib/utils";
 
@@ -36,6 +36,8 @@ interface AppContextValue {
   updateTimeEntry: (taskId: string, idx: number, start: string, end: string | null) => void;
   // Kanban drag
   moveTaskToColumn: (taskId: string, column: "todo" | "inprogress" | "done") => void;
+  // Integrations
+  setIntegrations: (configs: IntegrationConfig[], tasks: Task[]) => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -313,6 +315,18 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     [update]
   );
 
+  // ---- Integrations ----
+  const setIntegrations = useCallback(
+    (configs: IntegrationConfig[], tasks: Task[]) => {
+      update((d) => ({
+        ...d,
+        integrations: configs,
+        tasks,
+      }));
+    },
+    [update]
+  );
+
   if (!loaded) return null;
 
   return (
@@ -335,6 +349,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
         addManualTimeEntry,
         updateTimeEntry,
         moveTaskToColumn,
+        setIntegrations,
       }}
     >
       {children}

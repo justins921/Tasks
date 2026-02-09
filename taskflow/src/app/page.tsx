@@ -8,6 +8,7 @@ import TasksSection from "@/components/TasksSection";
 import ClientsSection from "@/components/ClientsSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import ReportsSection from "@/components/ReportsSection";
+import IntegrationsSection from "@/components/IntegrationsSection";
 
 export default function Home() {
   const [section, setSection] = useState<Section>("tasks");
@@ -31,6 +32,7 @@ export default function Home() {
           {section === "clients" && <ClientsSection onMenuToggle={toggleSidebar} />}
           {section === "projects" && <ProjectsSection onMenuToggle={toggleSidebar} />}
           {section === "reports" && <ReportsSection onMenuToggle={toggleSidebar} />}
+          {section === "integrations" && <IntegrationsSection onMenuToggle={toggleSidebar} />}
         </main>
       </div>
     </AppDataProvider>
