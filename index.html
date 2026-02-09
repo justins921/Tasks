@@ -8,477 +8,1124 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f5f5f5;
+      --bg: #f0f2f5;
       --surface: #ffffff;
-      --border: #e0e0e0;
-      --text: #1a1a1a;
-      --text-secondary: #666;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --danger: #dc2626;
-      --danger-hover: #b91c1c;
-      --success: #16a34a;
-      --success-hover: #15803d;
+      --surface-hover: #f8f9fa;
+      --border: #e2e5e9;
+      --border-light: #f0f1f3;
+      --text: #1a1d21;
+      --text-secondary: #6b7280;
+      --text-tertiary: #9ca3af;
+      --primary: #4f46e5;
+      --primary-light: #eef2ff;
+      --primary-hover: #4338ca;
+      --danger: #ef4444;
+      --danger-light: #fef2f2;
+      --danger-hover: #dc2626;
+      --success: #10b981;
+      --success-light: #ecfdf5;
+      --success-hover: #059669;
       --warning: #f59e0b;
-      --radius: 8px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --warning-light: #fffbeb;
+      --accent-blue: #3b82f6;
+      --accent-purple: #8b5cf6;
+      --accent-pink: #ec4899;
+      --radius: 10px;
+      --radius-lg: 14px;
+      --radius-sm: 6px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    header {
+    /* ========== SIDEBAR + LAYOUT ========== */
+    .app-layout {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      width: 240px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 50;
+      transition: transform var(--transition);
+    }
+
+    .sidebar-logo {
+      padding: 0 20px 20px;
+      border-bottom: 1px solid var(--border-light);
+      margin-bottom: 8px;
+    }
+
+    .sidebar-logo h1 {
+      font-size: 18px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .sidebar-logo span {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .sidebar-nav { flex: 1; padding: 8px 10px; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+
+    .nav-item:hover { background: var(--surface-hover); color: var(--text); }
+
+    .nav-item.active {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .nav-divider {
+      height: 1px;
+      background: var(--border-light);
+      margin: 8px 14px;
+    }
+
+    .app-main {
+      flex: 1;
+      margin-left: 240px;
+      min-height: 100vh;
+    }
+
+    /* ========== TOP BAR ========== */
+    .topbar {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
+      padding: 14px 28px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 30;
     }
 
-    header h1 { font-size: 20px; font-weight: 600; }
-
-    .header-nav {
+    .topbar-left {
       display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 8px;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .mobile-menu-btn svg { width: 20px; height: 20px; display: block; }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
 
-    .header-nav button {
-      padding: 8px 16px;
-      border: 1px solid var(--border);
-      background: var(--surface);
+    .view-toggle {
+      display: flex;
+      background: var(--bg);
       border-radius: var(--radius);
+      padding: 3px;
+      gap: 2px;
+    }
+
+    .view-toggle button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
       cursor: pointer;
-      font-size: 14px;
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .view-toggle button svg { width: 14px; height: 14px; }
+    .view-toggle button:hover { color: var(--text); }
+
+    .view-toggle button.active {
+      background: var(--surface);
       color: var(--text);
-      transition: background 0.15s;
+      box-shadow: var(--shadow-sm);
     }
 
-    .header-nav button:hover { background: var(--bg); }
-    .header-nav button.active {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
+    /* ========== CONTENT AREA ========== */
+    .content { padding: 24px 28px; max-width: 1200px; }
 
-    main { max-width: 960px; margin: 24px auto; padding: 0 16px; }
+    .content-full { padding: 24px 28px; }
 
+    /* ========== CARDS ========== */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
+      border-radius: var(--radius-lg);
       box-shadow: var(--shadow);
-      padding: 20px;
-      margin-bottom: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+      transition: box-shadow var(--transition);
     }
 
-    .card h2 { font-size: 16px; margin-bottom: 16px; }
+    .card:hover { box-shadow: var(--shadow-md); }
 
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ========== FORMS ========== */
     .form-row {
       display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      align-items: flex-end;
+      gap: 10px;
+      margin-bottom: 14px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
       flex: 1;
     }
 
     .form-group label {
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     input, select, textarea {
-      padding: 8px 12px;
+      padding: 9px 12px;
       border: 1px solid var(--border);
       border-radius: var(--radius);
       font-size: 14px;
       font-family: inherit;
       color: var(--text);
       background: var(--surface);
-      transition: border-color 0.15s;
+      transition: all var(--transition);
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+      box-shadow: 0 0 0 3px rgba(79,70,229,0.12);
     }
 
-    button {
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 14px;
+    input::placeholder, textarea::placeholder {
+      color: var(--text-tertiary);
     }
+
+    /* ========== BUTTONS ========== */
+    button { cursor: pointer; font-family: inherit; }
 
     .btn {
-      padding: 8px 16px;
+      padding: 9px 18px;
       border: none;
       border-radius: var(--radius);
+      font-size: 14px;
       font-weight: 500;
-      transition: background 0.15s;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-primary:hover { background: var(--primary-hover); }
+    .btn svg { width: 16px; height: 16px; }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 1px 2px rgba(79,70,229,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 2px 6px rgba(79,70,229,0.35);
+      transform: translateY(-1px);
+    }
+
     .btn-danger { background: var(--danger); color: white; }
     .btn-danger:hover { background: var(--danger-hover); }
+
     .btn-success { background: var(--success); color: white; }
     .btn-success:hover { background: var(--success-hover); }
-    .btn-outline {
+
+    .btn-ghost {
       background: transparent;
+      color: var(--text-secondary);
+      padding: 6px 10px;
+    }
+    .btn-ghost:hover { background: var(--surface-hover); color: var(--text); }
+
+    .btn-outline {
+      background: var(--surface);
       border: 1px solid var(--border);
       color: var(--text);
     }
-    .btn-outline:hover { background: var(--bg); }
-    .btn-sm { padding: 4px 10px; font-size: 13px; }
+    .btn-outline:hover { background: var(--surface-hover); border-color: #ccc; }
 
+    .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: var(--radius-sm); }
+    .btn-xs { padding: 3px 8px; font-size: 11px; border-radius: 4px; }
+
+    /* ========== BADGES ========== */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .badge-client { background: #dbeafe; color: #1e40af; }
+    .badge-project { background: #fef3c7; color: #92400e; }
+    .badge-running {
+      background: var(--success-light);
+      color: var(--success);
+      animation: pulse-badge 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-badge {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* ========== LIST ITEMS ========== */
     .list { list-style: none; }
 
     .list-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .list-item:last-child { border-bottom: none; }
-
-    .list-item-actions {
-      display: flex;
-      gap: 6px;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-
-    .badge-client { background: #dbeafe; color: #1e40af; }
-    .badge-project { background: #fef3c7; color: #92400e; }
-
-    /* Task-specific styles */
-    .task-item {
-      border: 1px solid var(--border);
+      padding: 12px 14px;
       border-radius: var(--radius);
-      padding: 16px;
+      transition: background var(--transition);
+      margin-bottom: 2px;
+    }
+
+    .list-item:hover { background: var(--surface-hover); }
+
+    .list-item-name {
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .list-item-meta {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .list-item-actions { display: flex; gap: 4px; }
+
+    /* ========== TASK LIST VIEW ========== */
+    .task-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 16px 18px;
       margin-bottom: 10px;
       background: var(--surface);
+      transition: all var(--transition);
+      position: relative;
     }
 
-    .task-item.running {
-      border-color: var(--success);
-      box-shadow: 0 0 0 2px rgba(22,163,74,0.15);
+    .task-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #d0d5dd;
     }
 
-    .task-header {
+    .task-card.running {
+      border-left: 3px solid var(--success);
+    }
+
+    .task-card.completed { opacity: 0.55; }
+    .task-card.completed .task-name { text-decoration: line-through; }
+
+    .task-top {
       display: flex;
-      justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 8px;
+      gap: 12px;
     }
 
-    .task-title { font-weight: 600; font-size: 15px; }
-
-    .task-meta {
+    .task-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 1px;
       display: flex;
-      gap: 8px;
       align-items: center;
+      justify-content: center;
+      transition: all var(--transition);
+      background: var(--surface);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .task-checkbox:checked {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .task-checkbox:checked::after {
+      content: '';
+      width: 5px;
+      height: 9px;
+      border: 2px solid white;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg) translateY(-1px);
+    }
+
+    .task-checkbox:hover { border-color: var(--primary); }
+
+    .task-body { flex: 1; min-width: 0; }
+
+    .task-name {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .task-badges {
+      display: flex;
+      gap: 6px;
       flex-wrap: wrap;
-      margin-bottom: 10px;
+      margin-bottom: 4px;
+    }
+
+    .task-notes-preview {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .task-timer-area {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-left: auto;
     }
 
     .timer-display {
-      font-family: "SF Mono", "Fira Code", "Fira Mono", monospace;
-      font-size: 22px;
+      font-family: "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", monospace;
+      font-size: 18px;
       font-weight: 600;
-      color: var(--text);
-      min-width: 90px;
+      color: var(--text-secondary);
+      letter-spacing: -0.5px;
+      min-width: 80px;
+      text-align: right;
     }
 
     .timer-display.running { color: var(--success); }
 
-    .timer-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
     .btn-timer {
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      transition: all var(--transition);
+      flex-shrink: 0;
     }
 
-    .btn-timer-start { background: var(--success); color: white; }
-    .btn-timer-start:hover { background: var(--success-hover); }
-    .btn-timer-stop { background: var(--danger); color: white; }
-    .btn-timer-stop:hover { background: var(--danger-hover); }
+    .btn-timer svg { width: 14px; height: 14px; }
 
-    .time-entries-toggle {
-      font-size: 13px;
-      color: var(--primary);
+    .btn-timer-start {
+      background: var(--success);
+      color: white;
+      box-shadow: 0 2px 6px rgba(16,185,129,0.35);
+    }
+    .btn-timer-start:hover {
+      background: var(--success-hover);
+      transform: scale(1.08);
+    }
+
+    .btn-timer-stop {
+      background: var(--danger);
+      color: white;
+      box-shadow: 0 2px 6px rgba(239,68,68,0.35);
+    }
+    .btn-timer-stop:hover {
+      background: var(--danger-hover);
+      transform: scale(1.08);
+    }
+
+    .task-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .task-actions { display: flex; gap: 4px; }
+
+    .time-toggle-btn {
+      font-size: 12px;
+      color: var(--text-tertiary);
       background: none;
       border: none;
       cursor: pointer;
-      padding: 4px 0;
+      padding: 2px 0;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    .time-entries-toggle:hover { text-decoration: underline; }
+    .time-toggle-btn:hover { color: var(--primary); }
+    .time-toggle-btn svg { width: 14px; height: 14px; }
 
-    .time-entries-list {
-      margin-top: 10px;
-      border-top: 1px solid var(--border);
-      padding-top: 10px;
+    .time-entries-panel {
+      margin-top: 12px;
+      padding: 12px;
+      background: var(--bg);
+      border-radius: var(--radius);
     }
 
-    .time-entry {
+    .time-entry-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 8px;
+      font-size: 12px;
+      border-radius: var(--radius-sm);
+      transition: background var(--transition);
+    }
+
+    .time-entry-row:hover { background: var(--surface); }
+
+    .time-entry-date { color: var(--text-secondary); min-width: 70px; }
+    .time-entry-range { color: var(--text); flex: 1; }
+    .time-entry-dur { font-family: monospace; color: var(--text-secondary); min-width: 60px; text-align: right; }
+    .time-entry-actions { display: flex; gap: 2px; }
+
+    /* ========== KANBAN BOARD ========== */
+    .kanban-board {
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      padding-bottom: 20px;
+      min-height: calc(100vh - 160px);
+      align-items: flex-start;
+    }
+
+    .kanban-column {
+      flex: 1;
+      min-width: 280px;
+      max-width: 400px;
+      background: var(--bg);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .kanban-column-header {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid transparent;
+    }
+
+    .kanban-column-header h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       display: flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 0;
-      font-size: 13px;
-      border-bottom: 1px solid #f0f0f0;
     }
 
-    .time-entry:last-child { border-bottom: none; }
+    .kanban-count {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 0 7px;
+      height: 20px;
+      line-height: 20px;
+      border-radius: 10px;
+      color: var(--text-secondary);
+    }
 
-    .time-entry input[type="datetime-local"] {
+    .col-todo .kanban-column-header { border-bottom-color: var(--accent-blue); }
+    .col-todo .kanban-column-header h3 { color: var(--accent-blue); }
+
+    .col-inprogress .kanban-column-header { border-bottom-color: var(--warning); }
+    .col-inprogress .kanban-column-header h3 { color: #d97706; }
+
+    .col-done .kanban-column-header { border-bottom-color: var(--success); }
+    .col-done .kanban-column-header h3 { color: var(--success); }
+
+    .kanban-cards {
+      padding: 10px;
+      flex: 1;
+      min-height: 100px;
+      transition: background var(--transition);
+    }
+
+    .kanban-cards.drag-over {
+      background: rgba(79,70,229,0.06);
+      border-radius: var(--radius);
+    }
+
+    .kanban-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      cursor: grab;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .kanban-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: #d0d5dd;
+    }
+
+    .kanban-card:active { cursor: grabbing; }
+
+    .kanban-card.dragging {
+      opacity: 0.5;
+      transform: rotate(2deg);
+    }
+
+    .kanban-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      word-break: break-word;
+    }
+
+    .kanban-card-badges {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .kanban-card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .kanban-timer {
+      font-family: "SF Mono", "Fira Code", monospace;
       font-size: 12px;
-      padding: 4px 6px;
+      font-weight: 600;
+      color: var(--text-tertiary);
     }
 
-    .total-time {
-      font-size: 13px;
-      color: var(--text-secondary);
-      margin-top: 4px;
+    .kanban-timer.running { color: var(--success); }
+
+    .kanban-card-actions {
+      display: flex;
+      gap: 2px;
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-      color: var(--text-secondary);
-    }
-
-    .empty-state p { margin-bottom: 8px; }
-
-    .section { display: none; }
-    .section.active { display: block; }
-
-    /* Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: 100;
+    .kanban-btn-timer {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      display: flex;
       align-items: center;
       justify-content: center;
     }
 
+    .kanban-btn-timer svg { width: 12px; height: 12px; }
+
+    /* ========== FILTER BAR ========== */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .filter-bar select {
+      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+    }
+
+    .filter-bar label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+
+    .filter-bar label input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+    }
+
+    /* ========== EMPTY STATE ========== */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--text-tertiary);
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      opacity: 0.4;
+    }
+
+    .empty-state p { font-size: 14px; margin-bottom: 4px; }
+
+    /* ========== MODAL ========== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.15s ease-out;
+    }
+
     .modal-overlay.open { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
     .modal {
       background: var(--surface);
-      border-radius: var(--radius);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-      padding: 24px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      padding: 28px;
       width: 100%;
-      max-width: 500px;
-      max-height: 80vh;
+      max-width: 480px;
+      max-height: 85vh;
       overflow-y: auto;
+      animation: slideUp 0.2s ease-out;
     }
 
-    .modal h3 { margin-bottom: 16px; font-size: 18px; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    .modal .form-group { margin-bottom: 12px; }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h3 { font-size: 17px; font-weight: 600; }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: var(--surface-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .modal-close:hover { background: var(--border); }
+    .modal-close svg { width: 16px; height: 16px; }
+
+    .modal .form-group { margin-bottom: 14px; }
 
     .modal-actions {
       display: flex;
       justify-content: flex-end;
       gap: 8px;
-      margin-top: 20px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-light);
     }
 
-    .task-completed {
-      opacity: 0.5;
+    /* ========== SECTIONS ========== */
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* ========== MOBILE OVERLAY ========== */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 40;
     }
 
-    .task-completed .task-title {
-      text-decoration: line-through;
-    }
+    .sidebar-overlay.open { display: block; }
 
-    .checkbox-wrapper {
-      display: flex;
-      align-items: center;
-      margin-right: 12px;
-    }
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        box-shadow: var(--shadow-lg);
+      }
 
-    .checkbox-wrapper input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-    }
+      .sidebar.open { transform: translateX(0); }
 
-    .task-left {
-      display: flex;
-      align-items: flex-start;
-      flex: 1;
-    }
+      .app-main { margin-left: 0; }
 
-    @media (max-width: 600px) {
+      .mobile-menu-btn { display: flex; }
+
+      .topbar { padding: 12px 16px; }
+      .content { padding: 16px; }
+      .content-full { padding: 16px; }
+
       .form-row { flex-direction: column; }
-      .timer-controls { flex-wrap: wrap; }
-      header { flex-direction: column; gap: 10px; }
+
+      .view-toggle button span.view-label { display: none; }
+
+      .task-top { flex-wrap: wrap; }
+      .task-timer-area { width: 100%; justify-content: flex-end; margin-top: 8px; }
+
+      .kanban-board {
+        flex-direction: column;
+        overflow-x: visible;
+      }
+
+      .kanban-column {
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .modal { padding: 20px; }
+      .card { padding: 16px; }
+
+      .filter-bar { gap: 8px; }
     }
+
+    @media (max-width: 480px) {
+      .topbar-title { font-size: 15px; }
+      .timer-display { font-size: 15px; min-width: 70px; }
+    }
+
+    /* ========== SCROLLBAR ========== */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #aaa; }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Task Manager</h1>
-  <nav class="header-nav">
-    <button class="active" onclick="showSection('tasks')">Tasks</button>
-    <button onclick="showSection('clients')">Clients</button>
-    <button onclick="showSection('projects')">Projects</button>
-  </nav>
-</header>
+<div class="app-layout">
+  <!-- SIDEBAR OVERLAY (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
 
-<main>
-  <!-- ========== TASKS SECTION ========== -->
-  <div id="section-tasks" class="section active">
-    <div class="card">
-      <h2>New Task</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Task Name</label>
-          <input type="text" id="task-name" placeholder="What needs to be done?">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Client</label>
-          <select id="task-client" onchange="populateProjectDropdown('task-project', this.value)">
-            <option value="">-- Select client --</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Project</label>
-          <select id="task-project">
-            <option value="">-- Select project --</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Notes (optional)</label>
-          <textarea id="task-notes" rows="2" placeholder="Any additional details..."></textarea>
-        </div>
-      </div>
-      <button class="btn btn-primary" onclick="addTask()">Add Task</button>
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h1>TaskFlow</h1>
+      <span>Time Tracker</span>
     </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-section="tasks" onclick="showSection('tasks', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Tasks
+      </button>
+      <button class="nav-item" data-section="clients" onclick="showSection('clients', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        Clients
+      </button>
+      <button class="nav-item" data-section="projects" onclick="showSection('projects', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+        Projects
+      </button>
+    </nav>
+  </aside>
 
-    <div class="card">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h2 style="margin-bottom:0;">Tasks</h2>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <label style="font-size:13px; color:var(--text-secondary);">
-            <input type="checkbox" id="show-completed" onchange="renderTasks()" style="width:auto; margin-right:4px;">
-            Show completed
-          </label>
-          <select id="filter-client" onchange="renderTasks()" style="font-size:13px; padding:4px 8px;">
+  <!-- MAIN CONTENT -->
+  <div class="app-main">
+
+    <!-- ==================== TASKS ==================== -->
+    <div id="section-tasks" class="section active">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </button>
+          <span class="topbar-title">Tasks</span>
+        </div>
+        <div class="topbar-actions">
+          <div class="view-toggle">
+            <button class="active" onclick="setView('list', this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+              <span class="view-label">List</span>
+            </button>
+            <button onclick="setView('board', this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              <span class="view-label">Board</span>
+            </button>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-add-task')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            <span class="view-label">Add Task</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- LIST VIEW -->
+      <div id="view-list" class="content">
+        <div class="filter-bar">
+          <select id="filter-client" onchange="renderTasks()">
             <option value="">All clients</option>
           </select>
+          <select id="filter-project" onchange="renderTasks()">
+            <option value="">All projects</option>
+          </select>
+          <label>
+            <input type="checkbox" id="show-completed" onchange="renderTasks()">
+            Show completed
+          </label>
         </div>
+        <div id="task-list"></div>
       </div>
-      <div id="task-list"></div>
-    </div>
-  </div>
 
-  <!-- ========== CLIENTS SECTION ========== -->
-  <div id="section-clients" class="section">
-    <div class="card">
-      <h2>Add Client</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Client Name</label>
-          <input type="text" id="client-name" placeholder="e.g. Acme Corp">
-        </div>
-        <button class="btn btn-primary" style="align-self:flex-end;" onclick="addClient()">Add</button>
-      </div>
-    </div>
-    <div class="card">
-      <h2>Clients</h2>
-      <ul class="list" id="client-list"></ul>
-    </div>
-  </div>
-
-  <!-- ========== PROJECTS SECTION ========== -->
-  <div id="section-projects" class="section">
-    <div class="card">
-      <h2>Add Project</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Client</label>
-          <select id="project-client">
-            <option value="">-- Select client --</option>
+      <!-- BOARD VIEW -->
+      <div id="view-board" class="content-full" style="display:none;">
+        <div class="filter-bar">
+          <select id="board-filter-client" onchange="renderBoard()">
+            <option value="">All clients</option>
+          </select>
+          <select id="board-filter-project" onchange="renderBoard()">
+            <option value="">All projects</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Project Name</label>
-          <input type="text" id="project-name" placeholder="e.g. Website Redesign">
-        </div>
-        <button class="btn btn-primary" style="align-self:flex-end;" onclick="addProject()">Add</button>
+        <div class="kanban-board" id="kanban-board"></div>
       </div>
     </div>
-    <div class="card">
-      <h2>Projects</h2>
-      <ul class="list" id="project-list"></ul>
+
+    <!-- ==================== CLIENTS ==================== -->
+    <div id="section-clients" class="section">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </button>
+          <span class="topbar-title">Clients</span>
+        </div>
+        <div class="topbar-actions"></div>
+      </div>
+      <div class="content">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Add Client</span></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Client Name</label>
+              <input type="text" id="client-name" placeholder="e.g. Acme Corp">
+            </div>
+            <button class="btn btn-primary" style="align-self:flex-end;" onclick="addClient()">Add Client</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">All Clients</span></div>
+          <ul class="list" id="client-list"></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== PROJECTS ==================== -->
+    <div id="section-projects" class="section">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </button>
+          <span class="topbar-title">Projects</span>
+        </div>
+        <div class="topbar-actions"></div>
+      </div>
+      <div class="content">
+        <div class="card">
+          <div class="card-header"><span class="card-title">Add Project</span></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Client</label>
+              <select id="project-client">
+                <option value="">-- Select client --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Project Name</label>
+              <input type="text" id="project-name" placeholder="e.g. Website Redesign">
+            </div>
+            <button class="btn btn-primary" style="align-self:flex-end;" onclick="addProject()">Add</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><span class="card-title">All Projects</span></div>
+          <ul class="list" id="project-list"></ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== ADD TASK MODAL ========== -->
+<div class="modal-overlay" id="modal-add-task">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>New Task</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-task')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="form-group">
+      <label>Task Name</label>
+      <input type="text" id="task-name" placeholder="What needs to be done?">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Client</label>
+        <select id="task-client" onchange="populateProjectDropdown('task-project', this.value)">
+          <option value="">-- Select client --</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Project</label>
+        <select id="task-project">
+          <option value="">-- Select project --</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Notes (optional)</label>
+      <textarea id="task-notes" rows="2" placeholder="Any additional details..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal('modal-add-task')">Cancel</button>
+      <button class="btn btn-primary" onclick="addTask()">Create Task</button>
     </div>
   </div>
-</main>
+</div>
 
 <!-- ========== EDIT TASK MODAL ========== -->
 <div class="modal-overlay" id="modal-edit-task">
   <div class="modal">
-    <h3>Edit Task</h3>
+    <div class="modal-header">
+      <h3>Edit Task</h3>
+      <button class="modal-close" onclick="closeModal('modal-edit-task')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
     <input type="hidden" id="edit-task-id">
     <div class="form-group">
       <label>Task Name</label>
       <input type="text" id="edit-task-name">
     </div>
-    <div class="form-group">
-      <label>Client</label>
-      <select id="edit-task-client" onchange="populateProjectDropdown('edit-task-project', this.value)">
-        <option value="">-- Select client --</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Project</label>
-      <select id="edit-task-project">
-        <option value="">-- Select project --</option>
-      </select>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Client</label>
+        <select id="edit-task-client" onchange="populateProjectDropdown('edit-task-project', this.value)">
+          <option value="">-- Select client --</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Project</label>
+        <select id="edit-task-project">
+          <option value="">-- Select project --</option>
+        </select>
+      </div>
     </div>
     <div class="form-group">
       <label>Notes</label>
@@ -486,7 +1133,7 @@
     </div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeModal('modal-edit-task')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveTaskEdit()">Save</button>
+      <button class="btn btn-primary" onclick="saveTaskEdit()">Save Changes</button>
     </div>
   </div>
 </div>
@@ -494,7 +1141,12 @@
 <!-- ========== EDIT TIME ENTRY MODAL ========== -->
 <div class="modal-overlay" id="modal-edit-time">
   <div class="modal">
-    <h3>Edit Time Entry</h3>
+    <div class="modal-header">
+      <h3>Edit Time Entry</h3>
+      <button class="modal-close" onclick="closeModal('modal-edit-time')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
     <input type="hidden" id="edit-time-task-id">
     <input type="hidden" id="edit-time-entry-idx">
     <div class="form-group">
@@ -502,19 +1154,19 @@
       <input type="datetime-local" id="edit-time-start" step="1">
     </div>
     <div class="form-group">
-      <label>End Time</label>
+      <label>End Time (leave blank if still running)</label>
       <input type="datetime-local" id="edit-time-end" step="1">
     </div>
     <div class="modal-actions">
       <button class="btn btn-outline" onclick="closeModal('modal-edit-time')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveTimeEdit()">Save</button>
+      <button class="btn btn-primary" onclick="saveTimeEdit()">Save Changes</button>
     </div>
   </div>
 </div>
 
 <script>
 // ============================================================
-// DATA LAYER
+// DATA
 // ============================================================
 const STORAGE_KEY = 'taskmanager_data';
 
@@ -524,36 +1176,59 @@ function loadData() {
   return { clients: [], projects: [], tasks: [] };
 }
 
-function saveData(data) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
-
-function genId() {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-}
+function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
 let data = loadData();
+let currentView = 'list';
 
 // ============================================================
-// NAVIGATION
+// SIDEBAR / NAV
 // ============================================================
-function showSection(name) {
+function showSection(name, btn) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('section-' + name).classList.add('active');
-  document.querySelectorAll('.header-nav button').forEach(b => b.classList.remove('active'));
-  event.target.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  closeSidebar();
+  renderAll();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-overlay').classList.toggle('open');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+// ============================================================
+// VIEW TOGGLE
+// ============================================================
+function setView(view, btn) {
+  currentView = view;
+  document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  document.getElementById('view-list').style.display = view === 'list' ? 'block' : 'none';
+  document.getElementById('view-board').style.display = view === 'board' ? 'block' : 'none';
+
+  if (view === 'board') renderBoard();
+  else renderTasks();
 }
 
 // ============================================================
 // CLIENTS
 // ============================================================
 function addClient() {
-  const nameInput = document.getElementById('client-name');
-  const name = nameInput.value.trim();
+  const inp = document.getElementById('client-name');
+  const name = inp.value.trim();
   if (!name) return;
   data.clients.push({ id: genId(), name });
   saveData(data);
-  nameInput.value = '';
+  inp.value = '';
   renderAll();
 }
 
@@ -561,39 +1236,38 @@ function deleteClient(id) {
   if (!confirm('Delete this client? Associated projects and task assignments will be cleared.')) return;
   data.clients = data.clients.filter(c => c.id !== id);
   data.projects = data.projects.filter(p => p.clientId !== id);
-  data.tasks.forEach(t => {
-    if (t.clientId === id) { t.clientId = ''; t.projectId = ''; }
-  });
+  data.tasks.forEach(t => { if (t.clientId === id) { t.clientId = ''; t.projectId = ''; } });
   saveData(data);
   renderAll();
 }
 
-function renderClients() {
-  const list = document.getElementById('client-list');
-  if (data.clients.length === 0) {
-    list.innerHTML = '<li class="empty-state"><p>No clients yet. Add one above.</p></li>';
-    return;
-  }
-  list.innerHTML = data.clients.map(c => `
-    <li class="list-item">
-      <span>${esc(c.name)}</span>
-      <div class="list-item-actions">
-        <button class="btn btn-sm btn-outline" onclick="editClientPrompt('${c.id}')">Rename</button>
-        <button class="btn btn-sm btn-danger" onclick="deleteClient('${c.id}')">Delete</button>
-      </div>
-    </li>
-  `).join('');
+function editClientPrompt(id) {
+  const c = data.clients.find(c => c.id === id);
+  if (!c) return;
+  const n = prompt('Rename client:', c.name);
+  if (n && n.trim()) { c.name = n.trim(); saveData(data); renderAll(); }
 }
 
-function editClientPrompt(id) {
-  const client = data.clients.find(c => c.id === id);
-  if (!client) return;
-  const newName = prompt('Rename client:', client.name);
-  if (newName && newName.trim()) {
-    client.name = newName.trim();
-    saveData(data);
-    renderAll();
+function renderClients() {
+  const list = document.getElementById('client-list');
+  if (!data.clients.length) {
+    list.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4-4v2"/><circle cx="9" cy="7" r="4"/></svg><p>No clients yet</p></div>';
+    return;
   }
+  list.innerHTML = data.clients.map(c => {
+    const projCount = data.projects.filter(p => p.clientId === c.id).length;
+    const taskCount = data.tasks.filter(t => t.clientId === c.id).length;
+    return `<li class="list-item">
+      <div>
+        <div class="list-item-name">${esc(c.name)}</div>
+        <div class="list-item-meta">${projCount} project${projCount !== 1 ? 's' : ''} &middot; ${taskCount} task${taskCount !== 1 ? 's' : ''}</div>
+      </div>
+      <div class="list-item-actions">
+        <button class="btn btn-ghost btn-sm" onclick="editClientPrompt('${c.id}')">Rename</button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--danger);" onclick="deleteClient('${c.id}')">Delete</button>
+      </div>
+    </li>`;
+  }).join('');
 }
 
 // ============================================================
@@ -601,81 +1275,86 @@ function editClientPrompt(id) {
 // ============================================================
 function addProject() {
   const clientId = document.getElementById('project-client').value;
-  const nameInput = document.getElementById('project-name');
-  const name = nameInput.value.trim();
+  const inp = document.getElementById('project-name');
+  const name = inp.value.trim();
   if (!clientId) return alert('Please select a client.');
   if (!name) return;
   data.projects.push({ id: genId(), clientId, name });
   saveData(data);
-  nameInput.value = '';
+  inp.value = '';
   renderAll();
 }
 
 function deleteProject(id) {
-  if (!confirm('Delete this project? Task assignments will be cleared.')) return;
+  if (!confirm('Delete this project?')) return;
   data.projects = data.projects.filter(p => p.id !== id);
-  data.tasks.forEach(t => {
-    if (t.projectId === id) t.projectId = '';
-  });
+  data.tasks.forEach(t => { if (t.projectId === id) t.projectId = ''; });
   saveData(data);
   renderAll();
 }
 
+function editProjectPrompt(id) {
+  const p = data.projects.find(p => p.id === id);
+  if (!p) return;
+  const n = prompt('Rename project:', p.name);
+  if (n && n.trim()) { p.name = n.trim(); saveData(data); renderAll(); }
+}
+
 function renderProjects() {
   const list = document.getElementById('project-list');
-  if (data.projects.length === 0) {
-    list.innerHTML = '<li class="empty-state"><p>No projects yet. Add one above.</p></li>';
+  if (!data.projects.length) {
+    list.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg><p>No projects yet</p></div>';
     return;
   }
   list.innerHTML = data.projects.map(p => {
     const client = data.clients.find(c => c.id === p.clientId);
-    return `
-      <li class="list-item">
-        <span>
-          <span class="badge badge-client">${client ? esc(client.name) : 'Unknown'}</span>
-          ${esc(p.name)}
-        </span>
-        <div class="list-item-actions">
-          <button class="btn btn-sm btn-outline" onclick="editProjectPrompt('${p.id}')">Rename</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteProject('${p.id}')">Delete</button>
-        </div>
-      </li>
-    `;
+    const taskCount = data.tasks.filter(t => t.projectId === p.id).length;
+    return `<li class="list-item">
+      <div>
+        <div class="list-item-name">${esc(p.name)}</div>
+        <div class="list-item-meta"><span class="badge badge-client">${client ? esc(client.name) : '?'}</span> &middot; ${taskCount} task${taskCount !== 1 ? 's' : ''}</div>
+      </div>
+      <div class="list-item-actions">
+        <button class="btn btn-ghost btn-sm" onclick="editProjectPrompt('${p.id}')">Rename</button>
+        <button class="btn btn-ghost btn-sm" style="color:var(--danger);" onclick="deleteProject('${p.id}')">Delete</button>
+      </div>
+    </li>`;
   }).join('');
-}
-
-function editProjectPrompt(id) {
-  const project = data.projects.find(p => p.id === id);
-  if (!project) return;
-  const newName = prompt('Rename project:', project.name);
-  if (newName && newName.trim()) {
-    project.name = newName.trim();
-    saveData(data);
-    renderAll();
-  }
 }
 
 // ============================================================
 // DROPDOWNS
 // ============================================================
 function populateClientDropdowns() {
-  const selects = ['task-client', 'project-client', 'filter-client', 'edit-task-client'];
-  selects.forEach(selId => {
-    const sel = document.getElementById(selId);
+  ['task-client', 'project-client', 'filter-client', 'board-filter-client', 'edit-task-client'].forEach(id => {
+    const sel = document.getElementById(id);
     if (!sel) return;
-    const currentVal = sel.value;
-    const isFilter = selId === 'filter-client';
-    const placeholder = isFilter ? 'All clients' : '-- Select client --';
-    sel.innerHTML = `<option value="">${placeholder}</option>` +
+    const val = sel.value;
+    const isFilter = id.includes('filter');
+    sel.innerHTML = `<option value="">${isFilter ? 'All clients' : '-- Select client --'}</option>` +
       data.clients.map(c => `<option value="${c.id}">${esc(c.name)}</option>`).join('');
-    sel.value = currentVal;
+    sel.value = val;
+  });
+}
+
+function populateProjectFilters() {
+  ['filter-project', 'board-filter-project'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (!sel) return;
+    const val = sel.value;
+    sel.innerHTML = '<option value="">All projects</option>' +
+      data.projects.map(p => {
+        const cl = data.clients.find(c => c.id === p.clientId);
+        return `<option value="${p.id}">${cl ? esc(cl.name) + ' / ' : ''}${esc(p.name)}</option>`;
+      }).join('');
+    sel.value = val;
   });
 }
 
 function populateProjectDropdown(selectId, clientId) {
   const sel = document.getElementById(selectId);
   if (!sel) return;
-  const projects = clientId ? data.projects.filter(p => p.clientId === clientId) : [];
+  const projects = clientId ? data.projects.filter(p => p.clientId === clientId) : data.projects;
   sel.innerHTML = '<option value="">-- Select project --</option>' +
     projects.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('');
 }
@@ -687,24 +1366,22 @@ function addTask() {
   const nameInput = document.getElementById('task-name');
   const name = nameInput.value.trim();
   if (!name) return;
-  const clientId = document.getElementById('task-client').value;
-  const projectId = document.getElementById('task-project').value;
-  const notes = document.getElementById('task-notes').value.trim();
-
   data.tasks.push({
     id: genId(),
     name,
-    clientId,
-    projectId,
-    notes,
+    clientId: document.getElementById('task-client').value,
+    projectId: document.getElementById('task-project').value,
+    notes: document.getElementById('task-notes').value.trim(),
     completed: false,
-    timeEntries: [],   // { start: ISO, end: ISO|null }
+    timeEntries: [],
     createdAt: new Date().toISOString()
   });
   saveData(data);
   nameInput.value = '';
   document.getElementById('task-notes').value = '';
+  closeModal('modal-add-task');
   renderTasks();
+  renderBoard();
 }
 
 function deleteTask(id) {
@@ -712,19 +1389,20 @@ function deleteTask(id) {
   data.tasks = data.tasks.filter(t => t.id !== id);
   saveData(data);
   renderTasks();
+  renderBoard();
 }
 
 function toggleComplete(id) {
   const task = data.tasks.find(t => t.id === id);
   if (!task) return;
-  // Stop timer if running
-  if (task.completed === false) {
+  if (!task.completed) {
     const running = task.timeEntries.find(e => e.end === null);
     if (running) running.end = new Date().toISOString();
   }
   task.completed = !task.completed;
   saveData(data);
   renderTasks();
+  renderBoard();
 }
 
 // ============================================================
@@ -732,73 +1410,80 @@ function toggleComplete(id) {
 // ============================================================
 function startTimer(taskId) {
   const task = data.tasks.find(t => t.id === taskId);
-  if (!task) return;
-  // Don't start if already running
-  if (task.timeEntries.some(e => e.end === null)) return;
+  if (!task || task.timeEntries.some(e => e.end === null)) return;
   task.timeEntries.push({ start: new Date().toISOString(), end: null });
   saveData(data);
   renderTasks();
+  renderBoard();
 }
 
 function stopTimer(taskId) {
   const task = data.tasks.find(t => t.id === taskId);
   if (!task) return;
   const running = task.timeEntries.find(e => e.end === null);
-  if (running) {
-    running.end = new Date().toISOString();
-    saveData(data);
-    renderTasks();
-  }
+  if (running) { running.end = new Date().toISOString(); saveData(data); renderTasks(); renderBoard(); }
 }
 
 function getTotalSeconds(task) {
   let total = 0;
   const now = new Date();
   task.timeEntries.forEach(e => {
-    const start = new Date(e.start);
-    const end = e.end ? new Date(e.end) : now;
-    total += (end - start) / 1000;
+    const s = new Date(e.start);
+    const en = e.end ? new Date(e.end) : now;
+    total += (en - s) / 1000;
   });
   return Math.max(0, Math.floor(total));
 }
 
-function formatDuration(totalSeconds) {
-  const h = Math.floor(totalSeconds / 3600);
-  const m = Math.floor((totalSeconds % 3600) / 60);
-  const s = totalSeconds % 60;
-  return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+function formatDuration(sec) {
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
+  const s = sec % 60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 }
 
-function formatDurationHM(totalSeconds) {
-  const h = Math.floor(totalSeconds / 3600);
-  const m = Math.floor((totalSeconds % 3600) / 60);
+function formatDurationShort(sec) {
+  const h = Math.floor(sec / 3600);
+  const m = Math.floor((sec % 3600) / 60);
   if (h > 0) return `${h}h ${m}m`;
-  return `${m}m`;
+  if (m > 0) return `${m}m`;
+  return `${sec}s`;
 }
 
+function isRunning(task) { return task.timeEntries.some(e => e.end === null); }
+
 // ============================================================
-// RENDER TASKS
+// RENDER LIST VIEW
 // ============================================================
+function getFilteredTasks(prefix) {
+  prefix = prefix || '';
+  const filterClient = document.getElementById(prefix + 'filter-client');
+  const filterProject = document.getElementById(prefix + 'filter-project');
+  const showDone = document.getElementById('show-completed');
+
+  let tasks = [...data.tasks];
+  if (filterClient && filterClient.value) tasks = tasks.filter(t => t.clientId === filterClient.value);
+  if (filterProject && filterProject.value) tasks = tasks.filter(t => t.projectId === filterProject.value);
+  if (showDone && !showDone.checked) tasks = tasks.filter(t => !t.completed);
+  return tasks;
+}
+
 function renderTasks() {
   const container = document.getElementById('task-list');
-  const filterClient = document.getElementById('filter-client').value;
-  const showCompleted = document.getElementById('show-completed').checked;
+  let tasks = getFilteredTasks('');
 
-  let tasks = data.tasks;
-  if (filterClient) tasks = tasks.filter(t => t.clientId === filterClient);
-  if (!showCompleted) tasks = tasks.filter(t => !t.completed);
-
-  if (tasks.length === 0) {
-    container.innerHTML = '<div class="empty-state"><p>No tasks to show.</p></div>';
+  if (!tasks.length) {
+    container.innerHTML = `<div class="empty-state">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      <p>No tasks to show</p>
+      <p style="font-size:12px;">Create one with the "Add Task" button above</p>
+    </div>`;
     return;
   }
 
-  // Sort: running timers first, then by creation date (newest first)
   tasks.sort((a, b) => {
-    const aRunning = a.timeEntries.some(e => e.end === null) ? 1 : 0;
-    const bRunning = b.timeEntries.some(e => e.end === null) ? 1 : 0;
-    if (aRunning !== bRunning) return bRunning - aRunning;
-    // Incomplete before complete
+    const ar = isRunning(a) ? 1 : 0, br = isRunning(b) ? 1 : 0;
+    if (ar !== br) return br - ar;
     if (a.completed !== b.completed) return a.completed ? 1 : -1;
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
@@ -806,77 +1491,200 @@ function renderTasks() {
   container.innerHTML = tasks.map(task => {
     const client = data.clients.find(c => c.id === task.clientId);
     const project = data.projects.find(p => p.id === task.projectId);
-    const isRunning = task.timeEntries.some(e => e.end === null);
+    const running = isRunning(task);
     const totalSec = getTotalSeconds(task);
-    const completedClass = task.completed ? ' task-completed' : '';
-    const runningClass = isRunning ? ' running' : '';
 
-    let timeEntriesHtml = '';
+    let timePanel = '';
     if (task.timeEntries.length > 0) {
       const rows = task.timeEntries.map((e, idx) => {
-        const start = new Date(e.start);
-        const end = e.end ? new Date(e.end) : null;
-        const durSec = end ? Math.floor((end - start) / 1000) : Math.floor((new Date() - start) / 1000);
-        return `
-          <div class="time-entry">
-            <span style="min-width:140px;">${formatDate(start)}  ${formatTime(start)} &ndash; ${end ? formatTime(end) : '<em>running</em>'}</span>
-            <span style="min-width:60px; font-family:monospace;">${formatDuration(durSec)}</span>
-            <button class="btn btn-sm btn-outline" onclick="openEditTimeModal('${task.id}', ${idx})">Edit</button>
-            <button class="btn btn-sm btn-danger" onclick="deleteTimeEntry('${task.id}', ${idx})">Del</button>
+        const s = new Date(e.start);
+        const en = e.end ? new Date(e.end) : null;
+        const dur = en ? Math.floor((en - s) / 1000) : Math.floor((new Date() - s) / 1000);
+        return `<div class="time-entry-row">
+          <span class="time-entry-date">${fmtDate(s)}</span>
+          <span class="time-entry-range">${fmtTime(s)} &ndash; ${en ? fmtTime(en) : '<span style="color:var(--success)">running</span>'}</span>
+          <span class="time-entry-dur">${formatDuration(dur)}</span>
+          <div class="time-entry-actions">
+            <button class="btn btn-ghost btn-xs" onclick="openEditTimeModal('${task.id}',${idx})">Edit</button>
+            <button class="btn btn-ghost btn-xs" style="color:var(--danger)" onclick="deleteTimeEntry('${task.id}',${idx})">Del</button>
           </div>
-        `;
+        </div>`;
       }).join('');
 
-      timeEntriesHtml = `
-        <button class="time-entries-toggle" onclick="toggleTimeEntries('${task.id}')">
-          ${task.timeEntries.length} time entr${task.timeEntries.length === 1 ? 'y' : 'ies'} &mdash; Total: ${formatDurationHM(totalSec)}
+      timePanel = `<button class="time-toggle-btn" onclick="toggleTimePanel('${task.id}')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          ${task.timeEntries.length} entr${task.timeEntries.length === 1 ? 'y' : 'ies'} &middot; ${formatDurationShort(totalSec)}
         </button>
-        <div class="time-entries-list" id="time-entries-${task.id}" style="display:none;">
+        <div class="time-entries-panel" id="tp-${task.id}" style="display:none;">
           ${rows}
           <div style="margin-top:8px;">
-            <button class="btn btn-sm btn-outline" onclick="addManualTimeEntry('${task.id}')">+ Add manual entry</button>
+            <button class="btn btn-outline btn-xs" onclick="addManualTimeEntry('${task.id}')">+ Add manual entry</button>
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
-    return `
-      <div class="task-item${completedClass}${runningClass}">
-        <div class="task-header">
-          <div class="task-left">
-            <div class="checkbox-wrapper">
-              <input type="checkbox" ${task.completed ? 'checked' : ''} onchange="toggleComplete('${task.id}')" title="Mark ${task.completed ? 'incomplete' : 'complete'}">
-            </div>
-            <div>
-              <div class="task-title">${esc(task.name)}</div>
-              <div class="task-meta">
-                ${client ? `<span class="badge badge-client">${esc(client.name)}</span>` : ''}
-                ${project ? `<span class="badge badge-project">${esc(project.name)}</span>` : ''}
-              </div>
-              ${task.notes ? `<div style="font-size:13px; color:var(--text-secondary); margin-bottom:6px;">${esc(task.notes)}</div>` : ''}
-            </div>
+    const playIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+    const stopIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>`;
+
+    return `<div class="task-card${running ? ' running' : ''}${task.completed ? ' completed' : ''}">
+      <div class="task-top">
+        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} onchange="toggleComplete('${task.id}')">
+        <div class="task-body">
+          <div class="task-name">${esc(task.name)}</div>
+          <div class="task-badges">
+            ${client ? `<span class="badge badge-client">${esc(client.name)}</span>` : ''}
+            ${project ? `<span class="badge badge-project">${esc(project.name)}</span>` : ''}
+            ${running ? '<span class="badge badge-running">Recording</span>' : ''}
           </div>
-          <div class="timer-controls">
-            <div class="timer-display${isRunning ? ' running' : ''}" id="timer-${task.id}">${formatDuration(totalSec)}</div>
-            ${task.completed ? '' : (isRunning
-              ? `<button class="btn-timer btn-timer-stop" onclick="stopTimer('${task.id}')" title="Stop timer">&#9632;</button>`
-              : `<button class="btn-timer btn-timer-start" onclick="startTimer('${task.id}')" title="Start timer">&#9654;</button>`
-            )}
-          </div>
+          ${task.notes ? `<div class="task-notes-preview">${esc(task.notes)}</div>` : ''}
         </div>
-        ${timeEntriesHtml}
-        <div style="display:flex; gap:6px; margin-top:8px;">
-          <button class="btn btn-sm btn-outline" onclick="openEditTaskModal('${task.id}')">Edit</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteTask('${task.id}')">Delete</button>
+        <div class="task-timer-area">
+          <div class="timer-display${running ? ' running' : ''}" id="timer-${task.id}">${formatDuration(totalSec)}</div>
+          ${task.completed ? '' : (running
+            ? `<button class="btn-timer btn-timer-stop" onclick="stopTimer('${task.id}')" title="Stop">${stopIcon}</button>`
+            : `<button class="btn-timer btn-timer-start" onclick="startTimer('${task.id}')" title="Start">${playIcon}</button>`
+          )}
         </div>
       </div>
-    `;
+      <div class="task-footer">
+        <div>${timePanel}</div>
+        <div class="task-actions">
+          <button class="btn btn-ghost btn-sm" onclick="openEditTaskModal('${task.id}')">Edit</button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--danger)" onclick="deleteTask('${task.id}')">Delete</button>
+        </div>
+      </div>
+    </div>`;
   }).join('');
 }
 
-function toggleTimeEntries(taskId) {
-  const el = document.getElementById('time-entries-' + taskId);
+function toggleTimePanel(taskId) {
+  const el = document.getElementById('tp-' + taskId);
   if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+// ============================================================
+// KANBAN BOARD
+// ============================================================
+function renderBoard() {
+  const board = document.getElementById('kanban-board');
+  const filterClient = document.getElementById('board-filter-client');
+  const filterProject = document.getElementById('board-filter-project');
+
+  let tasks = [...data.tasks];
+  if (filterClient && filterClient.value) tasks = tasks.filter(t => t.clientId === filterClient.value);
+  if (filterProject && filterProject.value) tasks = tasks.filter(t => t.projectId === filterProject.value);
+
+  const todo = tasks.filter(t => !t.completed && !isRunning(t) && getTotalSeconds(t) === 0);
+  const inProgress = tasks.filter(t => !t.completed && (isRunning(t) || getTotalSeconds(t) > 0));
+  const done = tasks.filter(t => t.completed);
+
+  function renderColumn(title, colClass, items) {
+    const cards = items.length === 0
+      ? '<div class="empty-state" style="padding:24px 12px;"><p style="font-size:12px;">No tasks</p></div>'
+      : items.map(task => {
+        const client = data.clients.find(c => c.id === task.clientId);
+        const project = data.projects.find(p => p.id === task.projectId);
+        const running = isRunning(task);
+        const totalSec = getTotalSeconds(task);
+
+        const playIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+        const stopIcon = `<svg viewBox="0 0 24 24" fill="currentColor"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>`;
+
+        return `<div class="kanban-card" draggable="true" data-task-id="${task.id}"
+            ondragstart="onDragStart(event)" ondragend="onDragEnd(event)">
+          <div class="kanban-card-title">${esc(task.name)}</div>
+          <div class="kanban-card-badges">
+            ${client ? `<span class="badge badge-client">${esc(client.name)}</span>` : ''}
+            ${project ? `<span class="badge badge-project">${esc(project.name)}</span>` : ''}
+          </div>
+          <div class="kanban-card-bottom">
+            <span class="kanban-timer${running ? ' running' : ''}" id="kb-timer-${task.id}">${formatDuration(totalSec)}</span>
+            <div class="kanban-card-actions">
+              ${task.completed ? '' : (running
+                ? `<button class="kanban-btn-timer btn-timer-stop" onclick="stopTimer('${task.id}')">${stopIcon}</button>`
+                : `<button class="kanban-btn-timer btn-timer-start" onclick="startTimer('${task.id}')">${playIcon}</button>`
+              )}
+              <button class="btn btn-ghost btn-xs" onclick="openEditTaskModal('${task.id}')">Edit</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+
+    return `<div class="kanban-column ${colClass}">
+      <div class="kanban-column-header">
+        <h3>${title} <span class="kanban-count">${items.length}</span></h3>
+      </div>
+      <div class="kanban-cards" data-column="${colClass}"
+        ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+        ${cards}
+      </div>
+    </div>`;
+  }
+
+  board.innerHTML =
+    renderColumn('To Do', 'col-todo', todo) +
+    renderColumn('In Progress', 'col-inprogress', inProgress) +
+    renderColumn('Done', 'col-done', done);
+}
+
+// ============================================================
+// DRAG AND DROP
+// ============================================================
+let draggedTaskId = null;
+
+function onDragStart(e) {
+  draggedTaskId = e.target.dataset.taskId;
+  e.target.classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function onDragEnd(e) {
+  e.target.classList.remove('dragging');
+  document.querySelectorAll('.kanban-cards').forEach(c => c.classList.remove('drag-over'));
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-over');
+}
+
+function onDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!draggedTaskId) return;
+
+  const task = data.tasks.find(t => t.id === draggedTaskId);
+  if (!task) return;
+
+  const col = e.currentTarget.dataset.column;
+
+  if (col === 'col-done') {
+    // Stop timer if running, mark completed
+    const running = task.timeEntries.find(en => en.end === null);
+    if (running) running.end = new Date().toISOString();
+    task.completed = true;
+  } else if (col === 'col-inprogress') {
+    task.completed = false;
+    // Start timer if not already tracking time
+    if (!isRunning(task)) {
+      task.timeEntries.push({ start: new Date().toISOString(), end: null });
+    }
+  } else if (col === 'col-todo') {
+    // Stop timer if running, mark not completed, clear time if desired
+    const running = task.timeEntries.find(en => en.end === null);
+    if (running) running.end = new Date().toISOString();
+    task.completed = false;
+  }
+
+  saveData(data);
+  renderBoard();
+  renderTasks();
+  draggedTaskId = null;
 }
 
 // ============================================================
@@ -884,36 +1692,32 @@ function toggleTimeEntries(taskId) {
 // ============================================================
 function deleteTimeEntry(taskId, idx) {
   const task = data.tasks.find(t => t.id === taskId);
-  if (!task) return;
-  if (!confirm('Delete this time entry?')) return;
+  if (!task || !confirm('Delete this time entry?')) return;
   task.timeEntries.splice(idx, 1);
   saveData(data);
   renderTasks();
+  renderBoard();
 }
 
 function addManualTimeEntry(taskId) {
   const task = data.tasks.find(t => t.id === taskId);
   if (!task) return;
-  // Default: 1 hour ending now
   const end = new Date();
   const start = new Date(end - 3600000);
   task.timeEntries.push({ start: start.toISOString(), end: end.toISOString() });
   saveData(data);
   renderTasks();
-  // Open edit modal for the new entry
   openEditTimeModal(taskId, task.timeEntries.length - 1);
 }
 
 function openEditTimeModal(taskId, idx) {
   const task = data.tasks.find(t => t.id === taskId);
   if (!task || !task.timeEntries[idx]) return;
-  const entry = task.timeEntries[idx];
-
+  const e = task.timeEntries[idx];
   document.getElementById('edit-time-task-id').value = taskId;
   document.getElementById('edit-time-entry-idx').value = idx;
-  document.getElementById('edit-time-start').value = toLocalDatetime(entry.start);
-  document.getElementById('edit-time-end').value = entry.end ? toLocalDatetime(entry.end) : '';
-
+  document.getElementById('edit-time-start').value = toLocalDatetime(e.start);
+  document.getElementById('edit-time-end').value = e.end ? toLocalDatetime(e.end) : '';
   openModal('modal-edit-time');
 }
 
@@ -922,18 +1726,15 @@ function saveTimeEdit() {
   const idx = parseInt(document.getElementById('edit-time-entry-idx').value, 10);
   const task = data.tasks.find(t => t.id === taskId);
   if (!task || !task.timeEntries[idx]) return;
-
-  const startVal = document.getElementById('edit-time-start').value;
-  const endVal = document.getElementById('edit-time-end').value;
-
-  if (!startVal) return alert('Start time is required.');
-
-  task.timeEntries[idx].start = new Date(startVal).toISOString();
-  task.timeEntries[idx].end = endVal ? new Date(endVal).toISOString() : null;
-
+  const sv = document.getElementById('edit-time-start').value;
+  const ev = document.getElementById('edit-time-end').value;
+  if (!sv) return alert('Start time is required.');
+  task.timeEntries[idx].start = new Date(sv).toISOString();
+  task.timeEntries[idx].end = ev ? new Date(ev).toISOString() : null;
   saveData(data);
   closeModal('modal-edit-time');
   renderTasks();
+  renderBoard();
 }
 
 // ============================================================
@@ -945,15 +1746,10 @@ function openEditTaskModal(taskId) {
   document.getElementById('edit-task-id').value = taskId;
   document.getElementById('edit-task-name').value = task.name;
   document.getElementById('edit-task-notes').value = task.notes || '';
-
   populateClientDropdowns();
   document.getElementById('edit-task-client').value = task.clientId || '';
   populateProjectDropdown('edit-task-project', task.clientId);
-  // Need a small delay so the project dropdown is populated before setting value
-  setTimeout(() => {
-    document.getElementById('edit-task-project').value = task.projectId || '';
-  }, 0);
-
+  setTimeout(() => { document.getElementById('edit-task-project').value = task.projectId || ''; }, 0);
   openModal('modal-edit-task');
 }
 
@@ -961,77 +1757,60 @@ function saveTaskEdit() {
   const taskId = document.getElementById('edit-task-id').value;
   const task = data.tasks.find(t => t.id === taskId);
   if (!task) return;
-
   const name = document.getElementById('edit-task-name').value.trim();
   if (!name) return alert('Task name is required.');
-
   task.name = name;
   task.clientId = document.getElementById('edit-task-client').value;
   task.projectId = document.getElementById('edit-task-project').value;
   task.notes = document.getElementById('edit-task-notes').value.trim();
-
   saveData(data);
   closeModal('modal-edit-task');
   renderTasks();
+  renderBoard();
 }
 
 // ============================================================
-// MODAL HELPERS
+// MODALS
 // ============================================================
 function openModal(id) {
   document.getElementById(id).classList.add('open');
+  const firstInput = document.querySelector('#' + id + ' input[type="text"]');
+  if (firstInput) setTimeout(() => firstInput.focus(), 100);
 }
 
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) overlay.classList.remove('open');
-  });
+document.querySelectorAll('.modal-overlay').forEach(ov => {
+  ov.addEventListener('click', e => { if (e.target === ov) ov.classList.remove('open'); });
 });
 
-// Close modals on Escape
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
-  }
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(m => m.classList.remove('open'));
 });
 
 // ============================================================
 // UTILITY
 // ============================================================
-function esc(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function fmtDate(d) { return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }); }
+function fmtTime(d) { return d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' }); }
 
-function formatDate(d) {
-  return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
-}
-
-function formatTime(d) {
-  return d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-}
-
-function toLocalDatetime(isoStr) {
-  const d = new Date(isoStr);
-  const offset = d.getTimezoneOffset();
-  const local = new Date(d.getTime() - offset * 60000);
-  return local.toISOString().slice(0, 19);
+function toLocalDatetime(iso) {
+  const d = new Date(iso);
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 19);
 }
 
 // ============================================================
-// LIVE TIMER UPDATE
+// LIVE TIMER TICK
 // ============================================================
 setInterval(() => {
   data.tasks.forEach(task => {
-    if (task.timeEntries.some(e => e.end === null)) {
+    if (isRunning(task)) {
+      const sec = getTotalSeconds(task);
       const el = document.getElementById('timer-' + task.id);
-      if (el) el.textContent = formatDuration(getTotalSeconds(task));
+      if (el) el.textContent = formatDuration(sec);
+      const kb = document.getElementById('kb-timer-' + task.id);
+      if (kb) kb.textContent = formatDuration(sec);
     }
   });
 }, 1000);
@@ -1041,12 +1820,14 @@ setInterval(() => {
 // ============================================================
 function renderAll() {
   populateClientDropdowns();
+  populateProjectFilters();
   renderClients();
   renderProjects();
   renderTasks();
+  if (currentView === 'board') renderBoard();
 }
 
-// Enter key support
+// Keyboard shortcuts for forms
 document.getElementById('client-name').addEventListener('keydown', e => { if (e.key === 'Enter') addClient(); });
 document.getElementById('project-name').addEventListener('keydown', e => { if (e.key === 'Enter') addProject(); });
 document.getElementById('task-name').addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
