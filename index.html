@@ -838,6 +838,179 @@
       border-top: 1px solid var(--border-light);
     }
 
+    /* ========== REPORTS ========== */
+    .report-month-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .report-month-nav button {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all var(--transition);
+      display: flex;
+      align-items: center;
+    }
+
+    .report-month-nav button:hover { background: var(--surface-hover); color: var(--text); }
+    .report-month-nav button svg { width: 16px; height: 16px; }
+
+    .report-month-label {
+      font-size: 17px;
+      font-weight: 600;
+      min-width: 160px;
+      text-align: center;
+    }
+
+    .report-summary-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .report-stat {
+      flex: 1;
+      min-width: 140px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .report-stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-tertiary);
+      margin-bottom: 4px;
+    }
+
+    .report-stat-value {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: "SF Mono", "Fira Code", monospace;
+    }
+
+    .report-stat-sub {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 2px;
+    }
+
+    .report-client-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .report-client-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+
+    .report-client-header:hover { background: var(--surface-hover); }
+
+    .report-client-name {
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .report-client-hours {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .report-client-details {
+      border-top: 1px solid var(--border-light);
+      padding: 0;
+    }
+
+    .report-project-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px 10px 36px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border-light);
+      transition: background var(--transition);
+    }
+
+    .report-project-row:last-child { border-bottom: none; }
+    .report-project-row:hover { background: var(--surface-hover); }
+
+    .report-project-name { color: var(--text-secondary); }
+
+    .report-project-hours {
+      font-family: monospace;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .report-task-rows {
+      padding: 0;
+    }
+
+    .report-task-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 18px 7px 54px;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-secondary);
+    }
+
+    .report-task-row:last-child { border-bottom: none; }
+
+    .report-task-hours {
+      font-family: monospace;
+      color: var(--text-secondary);
+    }
+
+    .report-bar-track {
+      height: 6px;
+      background: var(--border-light);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .report-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent-purple));
+      transition: width 0.5s ease;
+    }
+
+    .chevron-icon {
+      transition: transform var(--transition);
+      color: var(--text-tertiary);
+    }
+
+    .chevron-icon.open { transform: rotate(90deg); }
+
     /* ========== SECTIONS ========== */
     .section { display: none; }
     .section.active { display: block; }
@@ -929,6 +1102,11 @@
       <button class="nav-item" data-section="projects" onclick="showSection('projects', this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
         Projects
+      </button>
+      <div class="nav-divider"></div>
+      <button class="nav-item" data-section="reports" onclick="showSection('reports', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+        Reports
       </button>
     </nav>
   </aside>
@@ -1055,6 +1233,32 @@
           <div class="card-header"><span class="card-title">All Projects</span></div>
           <ul class="list" id="project-list"></ul>
         </div>
+      </div>
+    </div>
+
+    <!-- ==================== REPORTS ==================== -->
+    <div id="section-reports" class="section">
+      <div class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu-btn" onclick="toggleSidebar()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+          </button>
+          <span class="topbar-title">Reports</span>
+        </div>
+        <div class="topbar-actions"></div>
+      </div>
+      <div class="content">
+        <div class="report-month-nav">
+          <button onclick="changeReportMonth(-1)" title="Previous month">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <span class="report-month-label" id="report-month-label"></span>
+          <button onclick="changeReportMonth(1)" title="Next month">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="report-summary-row" id="report-summary"></div>
+        <div id="report-clients"></div>
       </div>
     </div>
 
@@ -1816,6 +2020,166 @@ setInterval(() => {
 }, 1000);
 
 // ============================================================
+// REPORTS
+// ============================================================
+let reportYear = new Date().getFullYear();
+let reportMonth = new Date().getMonth(); // 0-indexed
+
+function changeReportMonth(delta) {
+  reportMonth += delta;
+  if (reportMonth > 11) { reportMonth = 0; reportYear++; }
+  if (reportMonth < 0) { reportMonth = 11; reportYear--; }
+  renderReports();
+}
+
+function getMonthLabel(year, month) {
+  return new Date(year, month).toLocaleDateString(undefined, { year: 'numeric', month: 'long' });
+}
+
+function getSecondsInMonth(task, year, month) {
+  const monthStart = new Date(year, month, 1);
+  const monthEnd = new Date(year, month + 1, 1);
+  const now = new Date();
+  let total = 0;
+
+  task.timeEntries.forEach(e => {
+    const start = new Date(e.start);
+    const end = e.end ? new Date(e.end) : now;
+    // Clamp to the month boundaries
+    const clampStart = start < monthStart ? monthStart : start;
+    const clampEnd = end > monthEnd ? monthEnd : end;
+    if (clampStart < clampEnd) {
+      total += (clampEnd - clampStart) / 1000;
+    }
+  });
+
+  return Math.max(0, Math.floor(total));
+}
+
+function formatHours(sec) {
+  const h = sec / 3600;
+  return h.toFixed(1);
+}
+
+function renderReports() {
+  document.getElementById('report-month-label').textContent = getMonthLabel(reportYear, reportMonth);
+
+  // Aggregate per-client, per-project, per-task
+  const clientMap = {}; // clientId -> { name, seconds, projects: { projId -> { name, seconds, tasks: [] } } }
+  let totalSeconds = 0;
+  let activeClients = new Set();
+
+  data.tasks.forEach(task => {
+    const sec = getSecondsInMonth(task, reportYear, reportMonth);
+    if (sec === 0) return;
+
+    totalSeconds += sec;
+    const clientId = task.clientId || '__none';
+    const projectId = task.projectId || '__none';
+    const clientName = task.clientId ? (data.clients.find(c => c.id === task.clientId) || {}).name || 'Unknown' : 'No Client';
+    const projectName = task.projectId ? (data.projects.find(p => p.id === task.projectId) || {}).name || 'Unknown' : 'No Project';
+
+    if (!clientMap[clientId]) {
+      clientMap[clientId] = { name: clientName, seconds: 0, projects: {} };
+    }
+    clientMap[clientId].seconds += sec;
+    activeClients.add(clientId);
+
+    if (!clientMap[clientId].projects[projectId]) {
+      clientMap[clientId].projects[projectId] = { name: projectName, seconds: 0, tasks: [] };
+    }
+    clientMap[clientId].projects[projectId].seconds += sec;
+    clientMap[clientId].projects[projectId].tasks.push({ name: task.name, seconds: sec });
+  });
+
+  // Summary cards
+  const summaryEl = document.getElementById('report-summary');
+  const totalHrs = formatHours(totalSeconds);
+  const clientCount = [...activeClients].filter(id => id !== '__none').length;
+
+  summaryEl.innerHTML = `
+    <div class="report-stat">
+      <div class="report-stat-label">Total Hours</div>
+      <div class="report-stat-value">${totalHrs}</div>
+      <div class="report-stat-sub">this month</div>
+    </div>
+    <div class="report-stat">
+      <div class="report-stat-label">Active Clients</div>
+      <div class="report-stat-value">${clientCount}</div>
+      <div class="report-stat-sub">with tracked time</div>
+    </div>
+    <div class="report-stat">
+      <div class="report-stat-label">Avg Per Day</div>
+      <div class="report-stat-value">${totalSeconds > 0 ? formatHours(totalSeconds / daysInMonth(reportYear, reportMonth)) : '0.0'}</div>
+      <div class="report-stat-sub">hours / day</div>
+    </div>
+  `;
+
+  // Client breakdown
+  const clientsEl = document.getElementById('report-clients');
+  const sortedClients = Object.entries(clientMap).sort((a, b) => b[1].seconds - a[1].seconds);
+  const maxSec = sortedClients.length > 0 ? sortedClients[0][1].seconds : 1;
+
+  if (sortedClients.length === 0) {
+    clientsEl.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg><p>No tracked time this month</p></div>';
+    return;
+  }
+
+  clientsEl.innerHTML = sortedClients.map(([clientId, cl]) => {
+    const pct = Math.round((cl.seconds / maxSec) * 100);
+    const chevron = `<svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>`;
+
+    const sortedProjects = Object.entries(cl.projects).sort((a, b) => b[1].seconds - a[1].seconds);
+
+    const projectRows = sortedProjects.map(([projId, proj]) => {
+      const taskRows = proj.tasks.sort((a, b) => b.seconds - a.seconds).map(t =>
+        `<div class="report-task-row">
+          <span>${esc(t.name)}</span>
+          <span class="report-task-hours">${formatHours(t.seconds)}h</span>
+        </div>`
+      ).join('');
+
+      return `<div class="report-project-row">
+          <span class="report-project-name">${esc(proj.name)}</span>
+          <span class="report-project-hours">${formatHours(proj.seconds)}h</span>
+        </div>
+        <div class="report-task-rows">${taskRows}</div>`;
+    }).join('');
+
+    return `<div class="report-client-card">
+      <div class="report-client-header" onclick="toggleReportClient('${clientId}')">
+        <span class="report-client-name">
+          ${chevron}
+          ${esc(cl.name)}
+        </span>
+        <span class="report-client-hours">${formatHours(cl.seconds)}h</span>
+      </div>
+      <div class="report-bar-track" style="margin: 0 18px 12px;">
+        <div class="report-bar-fill" style="width:${pct}%"></div>
+      </div>
+      <div class="report-client-details" id="report-detail-${clientId}" style="display:none;">
+        ${projectRows}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleReportClient(clientId) {
+  const el = document.getElementById('report-detail-' + clientId);
+  if (!el) return;
+  const isOpen = el.style.display !== 'none';
+  el.style.display = isOpen ? 'none' : 'block';
+  // Toggle chevron
+  const header = el.previousElementSibling.previousElementSibling;
+  const chevron = header.querySelector('.chevron-icon');
+  if (chevron) chevron.classList.toggle('open');
+}
+
+function daysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
+// ============================================================
 // RENDER ALL
 // ============================================================
 function renderAll() {
@@ -1825,6 +2189,7 @@ function renderAll() {
   renderProjects();
   renderTasks();
   if (currentView === 'board') renderBoard();
+  renderReports();
 }
 
 // Keyboard shortcuts for forms
