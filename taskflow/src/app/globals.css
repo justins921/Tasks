@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+body {
+  background: #f0f2f5;
+  color: #1a1d21;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Shared input/select/textarea styles */
+.input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #e2e5e9;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #1a1d21;
+  background: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.input::placeholder {
+  color: #9ca3af;
+}
+
+/* Buttons */
+.btn-primary {
+  padding: 9px 18px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px rgba(79, 70, 229, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn-primary:hover {
+  background: #4338ca;
+  box-shadow: 0 2px 6px rgba(79, 70, 229, 0.35);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  padding: 9px 18px;
+  background: white;
+  color: #1a1d21;
+  border: 1px solid #e2e5e9;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.btn-outline:hover {
+  background: #f8f9fa;
+  border-color: #ccc;
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in { animation: fade-in 0.15s ease-out; }
+.animate-slide-up { animation: slide-up 0.2s ease-out; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #aaa; }
