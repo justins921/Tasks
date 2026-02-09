@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TaskFlow - Time Tracker",
+  title: "KISS Task Manager",
   description: "Track tasks and time across clients and projects",
 };
 

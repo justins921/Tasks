@@ -52,10 +52,10 @@ export default function Sidebar({
       >
         <div className="px-5 pt-5 pb-4 border-b border-gray-100">
           <h1 className="text-lg font-bold bg-gradient-to-r from-indigo-600 to-purple-500 bg-clip-text text-transparent">
-            TaskFlow
+            KISS
           </h1>
           <span className="text-[11px] text-gray-400 uppercase tracking-wide">
-            Time Tracker
+            Task Manager
           </span>
         </div>
 
